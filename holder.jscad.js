@@ -2,21 +2,10 @@
 // utilities
 
 // redefining this
-function mirrorFix(v,o) { 
-  var a = Array.prototype.slice.call(arguments, 1, arguments.length),
-      o = a[0];
-
-  for(var i=1; i<a.length; i++) {
-     o = o.union(a[i]);
-  }
-  var plane = new CSG.Plane(new CSG.Vector3D(v[0], v[1], v[2]).unit(), 0);
-  return o.mirrored(plane);
-}
-
 function copy_mirror(vec)
 {
   elements = arguments[1, arguments.length - 1];
-  return union(elements, mirrorFix(vec, elements));
+  return union(elements, mirror(vec, elements));
 } 
 
 function other_side(s1, s2) {
@@ -109,12 +98,7 @@ function holder_box(phone_length, phone_width, phone_height, catcher_thickness, 
     // cut out the chunk along the length
     cube({size: [phone_length - top_catcher_overlap, phone_width, phone_height + catcher_thickness + 2], center: true}),
     // cut out the chunk along the width
-    cube({size: [phone_length, phone_width - top_catcher_overlap, phone_height + catcher_thickness + 2], center: true}),
-
-    // cut out a gap 
-    translate([-phone_length / 2 + 20, 0, -side_gap_top_distance],
-      cube({size: [side_gap_width, phone_width + side_thickness + 2, side_gap_height ], center: true})
-    )
+    cube({size: [phone_length, phone_width - top_catcher_overlap, phone_height + catcher_thickness + 2], center: true})
   )
 }
 
